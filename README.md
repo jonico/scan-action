@@ -1,6 +1,5 @@
 [![Test Status][test-img]][test]
 
-# GitHub Action for Anchore Container Scanning
 
 This is a GitHub Action for invoking the [Anchore Engine](https://github.com/anchore/anchore-engine) scanner on a docker image and returning the vulnerabilities found,
 manifest of contents found, and a pass/fail policy evaluation that can be used to fail the build if desired.
@@ -62,7 +61,7 @@ For example:
  - uses: anchore/scan-action@master
        with:
          image-reference: "localbuild/testimage:latest"
-         dockerfile-path: "./Dockerfile"
+         dockerfile-path: "Dockerfile"
          fail-build: true
          include-app-packages: true
 ```
@@ -78,7 +77,7 @@ For example, to include a custom policy as: .anchore/policy.json in your code re
  - uses: anchore/scan-action@master
        with:
          image-reference: "localbuild/testimage:latest"
-         dockerfile-path: "./Dockerfile"
+         dockerfile-path: "Dockerfile"
          fail-build: true
          custom-policy-path: .anchore/policy.json
 ```
@@ -120,13 +119,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     - uses: anchore/scan-action@master
       with:
         image-reference: "localbuild/testimage:latest"
-        dockerfile-path: "./Dockerfile"
+        dockerfile-path: "Dockerfile"
         fail-build: true
     - name: anchore inline scan JSON results
       run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
@@ -141,13 +140,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     - uses: anchore/scan-action@master
       with:
         image-reference: "localbuild/testimage:latest"
-        dockerfile-path: "./Dockerfile"
+        dockerfile-path: "Dockerfile"
         fail-build: true
         acs-report-enable: true
         #acs-report-severity-cutoff: "Medium"
